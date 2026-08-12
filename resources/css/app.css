@@ -1,0 +1,155 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --color-primary: #0d9488;
+    --color-primary-600: #0f766e;
+    --color-primary-700: #115e59;
+    --color-primary-50: #f0fdfa;
+    --color-primary-100: #ccfbf1;
+    --color-primary-25: #f6fdfb;
+    --color-secondary: #0891b2;
+    --color-accent: #f59e0b;
+}
+
+@layer base {
+    [x-cloak] {
+        display: none !important;
+    }
+
+    html {
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+        @apply bg-slate-100 text-slate-900 antialiased dark:bg-slate-900 dark:text-slate-100;
+    }
+
+    /* Custom scrollbars */
+    ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+        @apply bg-transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        @apply rounded-full bg-slate-300 dark:bg-slate-700;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        @apply bg-slate-400 dark:bg-slate-600;
+    }
+}
+
+@layer components {
+    .btn {
+        @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white disabled:cursor-not-allowed disabled:opacity-60 dark:focus:ring-offset-slate-900;
+    }
+
+    .btn-primary {
+        @apply btn text-white shadow-sm;
+        background-color: var(--color-primary);
+    }
+
+    .btn-primary:hover {
+        background-color: var(--color-primary-600);
+        box-shadow: 0 4px 10px -2px rgba(13, 148, 136, 0.4);
+    }
+
+    .btn-primary:focus {
+        box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--color-primary);
+    }
+
+    .btn-secondary {
+        @apply btn border border-slate-300 bg-white text-slate-700 shadow-sm hover:bg-slate-50 hover:border-slate-400 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700;
+    }
+
+    .btn-ghost {
+        @apply btn text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white;
+    }
+
+    .btn-danger {
+        @apply btn bg-red-600 text-white shadow-sm hover:bg-red-700 focus:ring-red-500;
+    }
+
+    .btn-sm {
+        @apply px-2.5 py-1.5 text-xs;
+    }
+
+    .btn-lg {
+        @apply px-5 py-2.5 text-base;
+    }
+
+    .card {
+        @apply rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800;
+    }
+
+    .input {
+        @apply w-full rounded-lg border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm placeholder:text-slate-400 focus:border-[var(--color-primary)] focus:ring-[var(--color-primary)] disabled:cursor-not-allowed disabled:opacity-60 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100;
+    }
+
+    .label {
+        @apply mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300;
+    }
+
+    .th {
+        @apply px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400;
+    }
+
+    .td {
+        @apply px-4 py-3 text-sm text-slate-700 dark:text-slate-300;
+    }
+}
+
+@layer utilities {
+    .text-primary {
+        color: var(--color-primary);
+    }
+
+    .bg-primary {
+        background-color: var(--color-primary);
+    }
+
+    .bg-primary-50 {
+        background-color: var(--color-primary-50);
+    }
+
+    .bg-primary-100 {
+        background-color: var(--color-primary-100);
+    }
+
+    .text-primary-600 {
+        color: var(--color-primary-600);
+    }
+
+    .text-primary-700 {
+        color: var(--color-primary-700);
+    }
+
+    .border-primary {
+        border-color: var(--color-primary);
+    }
+
+    /* Print helpers */
+    .print-area {
+        @apply mx-auto max-w-4xl bg-white p-8 dark:bg-white;
+    }
+
+    @media print {
+        .no-print {
+            display: none !important;
+        }
+
+        .print-area {
+            @apply max-w-none p-0 shadow-none;
+        }
+
+        body {
+            @apply bg-white;
+        }
+    }
+}
