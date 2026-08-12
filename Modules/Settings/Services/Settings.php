@@ -92,6 +92,17 @@ class Settings
             ],
         );
 
+        // The clinic columns are the single source of truth for currency and
+        // timezone; keep the localization group in sync so a change made from
+        // either tab affects the whole application.
+        if ($key === 'localization.currency') {
+            $clinic->currency = (string) $value;
+            $clinic->save();
+        } elseif ($key === 'localization.timezone') {
+            $clinic->timezone = (string) $value;
+            $clinic->save();
+        }
+
         $this->cache->forget($this->cacheKey($clinic));
     }
 

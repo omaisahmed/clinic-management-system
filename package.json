@@ -4,7 +4,8 @@
     "type": "module",
     "scripts": {
         "build": "vite build",
-        "dev": "vite"
+        "dev": "vite",
+        "postinstall": "node -e \"const fs=require('fs'),p=require('path');const from=p.join('node_modules','vite','node_modules','lightningcss-win32-x64-msvc','lightningcss.win32-x64-msvc.node');const to=p.join('node_modules','vite','node_modules','lightningcss','lightningcss.win32-x64-msvc.node');try{fs.copyFileSync(from,to);console.log('postinstall: copied lightningcss binary');}catch(e){}\""
     },
     "devDependencies": {
         "@tailwindcss/forms": "^0.5.2",

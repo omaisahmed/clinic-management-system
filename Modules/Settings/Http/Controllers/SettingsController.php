@@ -54,16 +54,19 @@ class SettingsController extends Controller
             $type = $field['type'];
             $encrypted = (bool) ($field['encrypted'] ?? false);
 
-            if ($encrypted && $request->missing($key)) {
+            // PHP converts dots in form field names to underscores on submit.
+            $requestKey = str_replace('.', '_', $key);
+
+            if ($encrypted && $request->missing($requestKey)) {
                 continue;
             }
 
             if ($type === SettingType::Boolean) {
-                $this->settings->set($key, $request->boolean($key), $type, $encrypted);
+                $this->settings->set($key, (bool) $request->get($requestKey), $type, $encrypted);
                 continue;
             }
 
-            $raw = $request->input($key);
+            $raw = $request->get($requestKey);
 
             // Blank encrypted secrets keep their current value.
             if ($encrypted && ($raw === null || $raw === '')) {
@@ -86,9 +89,13 @@ class SettingsController extends Controller
 
         $data = [];
 
+        // PHP converts dots in form field names to underscores on submit
+        // (e.g. name="clinic.name" arrives as "clinic_name").
         foreach (Settings::CLINIC_COLUMNS as $column) {
-            if ($request->exists('clinic.' . $column)) {
-                $data[$column] = $request->input('clinic.' . $column);
+            $requestKey = 'clinic_' . $column;
+
+            if ($request->exists($requestKey)) {
+                $data[$column] = $request->get($requestKey);
             }
         }
 
@@ -105,6 +112,19 @@ class SettingsController extends Controller
         }
 
         $clinic->save();
+
+        // Keep the localization group in sync with the clinic columns.
+        foreach (['currency' => 'localization.currency', 'timezone' => 'localization.timezone'] as $column => $key) {
+            $clinic->settings()->updateOrCreate(
+                ['key' => $key],
+                [
+                    'group' => 'localization',
+                    'value' => (string) $clinic->{$column},
+                    'type' => SettingType::String->value,
+                    'is_encrypted' => false,
+                ],
+            );
+        }
 
         $this->settings->flush($clinic);
 

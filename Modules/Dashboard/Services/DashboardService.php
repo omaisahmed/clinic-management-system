@@ -222,9 +222,9 @@ class DashboardService
         return (float) $query->sum($column);
     }
 
-    private function patientName(int|string $patientId): string
+    private function patientName(int|string|null $patientId): string
     {
-        if (! Schema::hasTable('patients')) {
+        if ($patientId === null || ! Schema::hasTable('patients')) {
             return '';
         }
 
@@ -233,9 +233,9 @@ class DashboardService
         return $patient ? trim("{$patient->first_name} {$patient->last_name}") : '';
     }
 
-    private function doctorName(int|string $doctorId): string
+    private function doctorName(int|string|null $doctorId): string
     {
-        if (! Schema::hasTable('users')) {
+        if ($doctorId === null || ! Schema::hasTable('users')) {
             return '';
         }
 
