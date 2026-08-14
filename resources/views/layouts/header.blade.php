@@ -17,16 +17,17 @@
     </div>
 
     <!-- Search -->
-    <div class="hidden flex-1 items-center justify-center md:flex">
+    <form method="GET" action="{{ route('search.index') }}" class="hidden flex-1 items-center justify-center md:flex">
         <div class="relative w-full max-w-md">
             <x-icon name="search" class="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
             <input type="search"
+                   name="q"
+                   value="{{ request('q') }}"
                    placeholder="Search patients, invoices, medicines..."
-                   class="input !rounded-full !border-slate-200 !bg-slate-100 !pl-10 focus:!border-[var(--color-primary)] focus:!bg-white focus:!ring-[var(--color-primary)] dark:!border-slate-700 dark:!bg-slate-800"
-                   x-data
-                   x-on:keydown.enter.prevent="$el.closest('form').submit()" />
+                   autocomplete="off"
+                   class="input !rounded-full !border-slate-200 !bg-slate-100 !pl-10 focus:!border-[var(--color-primary)] focus:!bg-white focus:!ring-[var(--color-primary)] dark:!border-slate-700 dark:!bg-slate-800" />
         </div>
-    </div>
+    </form>
 
     <div class="ml-auto flex items-center gap-2">
         <!-- Theme toggle -->
